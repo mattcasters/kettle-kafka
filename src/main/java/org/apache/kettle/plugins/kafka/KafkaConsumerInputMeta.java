@@ -20,7 +20,7 @@
  *
  ******************************************************************************/
 
-package org.pentaho.big.data.kettle.plugins.kafka;
+package org.apache.kettle.plugins.kafka;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -65,8 +65,8 @@ import java.util.stream.IntStream;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 
-@Step( id = "KafkaConsumerInput", image = "KafkaConsumerInput.svg",
-  i18nPackageName = "org.pentaho.big.data.kettle.plugins.kafka",
+@Step( id = "KettleKafkaConsumerInput", image = "KafkaConsumerInput.svg",
+  i18nPackageName = "org.apache.kettle.plugins.kafka",
   name = "KafkaConsumer.TypeLongDesc",
   description = "KafkaConsumer.TypeTooltipDesc",
   categoryDescription = "i18n:org.pentaho.di.trans.step:BaseStep.Category.Streaming",
@@ -118,7 +118,7 @@ public class KafkaConsumerInputMeta extends BaseStreamStepMeta implements StepMe
   protected transient List<String> injectedConfigValues;
 
   @Injection( name = AUTO_COMMIT )
-  private boolean autoCommit = true;
+  private boolean autoCommit = false;
 
   private Map<String, String> config = new LinkedHashMap<>();
 

@@ -22,6 +22,7 @@
 
 package org.pentaho.big.data.kettle.plugins.kafka;
 
+import org.apache.kettle.plugins.kafka.KafkaConsumerField;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;

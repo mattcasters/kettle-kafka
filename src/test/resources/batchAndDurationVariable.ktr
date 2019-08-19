@@ -440,7 +440,7 @@
   </order>
   <step>
     <name>Kafka Consumer</name>
-    <type>KafkaConsumerInput</type>
+    <type>KettleKafkaConsumerInput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>

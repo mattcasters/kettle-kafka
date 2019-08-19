@@ -20,19 +20,18 @@
  *
  ******************************************************************************/
 
-package org.pentaho.big.data.kettle.plugins.kafka;
+package org.apache.kettle.plugins.kafka;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
-import org.apache.kafka.clients.CommonClientConfigs;
+
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.common.config.SaslConfigs;
 
 /**
  * Created by rfellows on 6/2/17.
@@ -59,6 +58,7 @@ public class KafkaFactory {
   public Consumer consumer( KafkaConsumerInputMeta meta, Function<String, String> variablesFunction,
     KafkaConsumerField.Type keyDeserializerType, KafkaConsumerField.Type msgDeserializerType ) {
 
+    try {
     HashMap<String, Object> kafkaConfig = new HashMap<>();
     Function<String, String> variableNonNull = variablesFunction.andThen( KafkaFactory::nullToEmpty );
     kafkaConfig.put( ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, variableNonNull.apply( meta.getBootstrapServers() ) );
@@ -70,7 +70,10 @@ public class KafkaFactory {
         .forEach( ( entry -> kafkaConfig.put( entry.getKey(), variableNonNull.apply(
             (String) entry.getValue() ) ) ) );
 
-    return consumerFunction.apply( kafkaConfig );
+    return consumerFunction.apply( kafkaConfig ); }
+    catch(Exception e) {
+      throw new RuntimeException( "Unable to build Kafka consumer: "+e.getMessage(), e );
+    }
   }
 
 

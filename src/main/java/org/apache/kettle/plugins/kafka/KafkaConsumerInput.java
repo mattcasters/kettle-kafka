@@ -19,9 +19,11 @@
  * limitations under the License.
  *
  ******************************************************************************/
-package org.pentaho.big.data.kettle.plugins.kafka;
+package org.apache.kettle.plugins.kafka;
 
 import org.apache.kafka.clients.consumer.Consumer;
+import org.apache.kettle.plugins.kafka.shared.BaseStreamStep;
+import org.apache.kettle.plugins.kafka.shared.FixedTimeStreamWindow;
 import org.pentaho.di.core.Result;
 import org.pentaho.di.core.exception.KettleStepException;
 import org.pentaho.di.i18n.BaseMessages;
@@ -31,9 +33,6 @@ import org.pentaho.di.trans.step.StepDataInterface;
 import org.pentaho.di.trans.step.StepInterface;
 import org.pentaho.di.trans.step.StepMeta;
 import org.pentaho.di.trans.step.StepMetaInterface;
-import org.pentaho.di.trans.streaming.common.BaseStreamStep;
-import org.pentaho.di.trans.streaming.common.FixedTimeStreamWindow;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;

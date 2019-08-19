@@ -20,16 +20,14 @@
  *
  ******************************************************************************/
 
-package org.pentaho.big.data.kettle.plugins.kafka;
+package org.apache.kettle.plugins.kafka;
 
 import com.google.common.collect.ImmutableMap;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.eclipse.jface.window.ApplicationWindow;
+import org.apache.kettle.plugins.kafka.shared.BaseStreamingDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -65,10 +63,7 @@ import org.pentaho.di.ui.core.widget.ComboVar;
 import org.pentaho.di.ui.core.widget.TableView;
 import org.pentaho.di.ui.core.widget.TextVar;
 import org.pentaho.di.ui.spoon.Spoon;
-import org.pentaho.di.ui.trans.step.BaseStreamingDialog;
 import org.pentaho.di.ui.util.DialogUtils;
-import org.pentaho.metastore.api.exceptions.MetaStoreException;
-import org.pentaho.ui.xul.XulEventSource;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -166,30 +161,29 @@ public class KafkaConsumerInputDialog extends BaseStreamingDialog implements Ste
     wSetupComp.setLayout( setupLayout );
 
 
-    wlBootstrapServers = new Label( wSetupComp, SWT.RIGHT );
+    wlBootstrapServers = new Label( wSetupComp, SWT.LEFT );
     props.setLook( wlBootstrapServers );
     wlBootstrapServers.setText( BaseMessages.getString( PKG, "KafkaConsumerInputDialog.BootstrapServers" ) );
     FormData fdlBootstrapServers = new FormData();
     fdlBootstrapServers.left = new FormAttachment( 0, 0 );
     fdlBootstrapServers.top = new FormAttachment( 0, 0 );
-    fdlBootstrapServers.right = new FormAttachment( Const.MIDDLE_PCT, 0 );
     wlBootstrapServers.setLayoutData( fdlBootstrapServers );
 
     wBootstrapServers = new TextVar( transMeta, wSetupComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER );
     props.setLook( wBootstrapServers );
     wBootstrapServers.addModifyListener( lsMod );
     FormData fdBootstrapServers = new FormData();
-    fdBootstrapServers.left = new FormAttachment( Const.MIDDLE_PCT, Const.MARGIN );
-    fdBootstrapServers.top = new FormAttachment( 0, 0 );
+    fdBootstrapServers.left = new FormAttachment( 0, 0 );
+    fdBootstrapServers.top = new FormAttachment( wlBootstrapServers, Const.MARGIN );
     fdBootstrapServers.right = new FormAttachment( 100, 0 );
     wBootstrapServers.setLayoutData( fdBootstrapServers );
 
-    wlTopic = new Label( wSetupComp, SWT.RIGHT );
+    wlTopic = new Label( wSetupComp, SWT.LEFT );
     props.setLook( wlTopic );
     wlTopic.setText( BaseMessages.getString( PKG, "KafkaConsumerInputDialog.Topics" ) );
     FormData fdlTopic = new FormData();
     fdlTopic.left = new FormAttachment( 0, 0 );
-    fdlTopic.top = new FormAttachment( wBootstrapServers, Const.MARGIN );
+    fdlTopic.top = new FormAttachment( wBootstrapServers, 3*Const.MARGIN );
     fdlTopic.right = new FormAttachment( Const.MIDDLE_PCT, 0 );
     wlTopic.setLayoutData( fdlTopic );
 
@@ -198,8 +192,8 @@ public class KafkaConsumerInputDialog extends BaseStreamingDialog implements Ste
     wConsumerGroup.addModifyListener( lsMod );
     FormData fdConsumerGroup = new FormData();
     fdConsumerGroup.left = new FormAttachment( 0, 0 );
+    fdConsumerGroup.right = new FormAttachment( 100, 0 );
     fdConsumerGroup.bottom = new FormAttachment( 100, 0 );
-    fdConsumerGroup.width = INPUT_WIDTH;
     wConsumerGroup.setLayoutData( fdConsumerGroup );
 
     wlConsumerGroup = new Label( wSetupComp, SWT.LEFT );

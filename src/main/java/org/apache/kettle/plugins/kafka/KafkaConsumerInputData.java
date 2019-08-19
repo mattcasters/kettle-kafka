@@ -20,18 +20,20 @@
  *
  ******************************************************************************/
 
-package org.pentaho.big.data.kettle.plugins.kafka;
+package org.apache.kettle.plugins.kafka;
 
-import org.apache.kafka.clients.producer.Producer;
-import org.pentaho.di.trans.step.BaseStepData;
+import org.pentaho.di.core.row.RowMetaInterface;
 import org.pentaho.di.trans.step.StepDataInterface;
+import org.pentaho.di.trans.steps.transexecutor.TransExecutorData;
 
-public class KafkaProducerOutputData extends BaseStepData implements StepDataInterface {
-  Producer<Object, Object> kafkaProducer;
-  int keyFieldIndex;
-  int messageFieldIndex;
 
-  public KafkaProducerOutputData() {
+public class KafkaConsumerInputData extends TransExecutorData implements StepDataInterface {
+  RowMetaInterface outputRowMeta;
+
+  /**
+   *
+   */
+  public KafkaConsumerInputData() {
     super();
   }
 }

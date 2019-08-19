@@ -20,7 +20,7 @@
  *
  ******************************************************************************/
 
-package org.pentaho.big.data.kettle.plugins.kafka;
+package org.apache.kettle.plugins.kafka;
 
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.pentaho.di.core.exception.KettleException;
@@ -50,7 +50,7 @@ public class KafkaProducerOutput extends BaseStep implements StepInterface {
     setKafkaFactory( KafkaFactory.defaultFactory() );
   }
 
-  void setKafkaFactory( KafkaFactory factory ) {
+  public void setKafkaFactory( KafkaFactory factory ) {
     this.kafkaFactory = factory;
   }
 

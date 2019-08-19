@@ -20,7 +20,7 @@
  *
  ******************************************************************************/
 
-package org.pentaho.big.data.kettle.plugins.kafka;
+package org.apache.kettle.plugins.kafka;
 
 import com.google.common.base.Preconditions;
 import java.util.LinkedHashMap;
@@ -52,8 +52,8 @@ import org.pentaho.di.trans.step.StepMetaInterface;
 import org.pentaho.metastore.api.IMetaStore;
 import org.w3c.dom.Node;
 
-@Step( id = "KafkaProducerOutput", image = "KafkaProducerOutput.svg",
-  i18nPackageName = "org.pentaho.big.data.kettle.plugins.kafka",
+@Step( id = "KettleKafkaProducerOutput", image = "KafkaProducerOutput.svg",
+  i18nPackageName = "org.apache.kettle.plugins.kafka",
   name = "KafkaProducer.TypeLongDesc",
   description = "KafkaProducer.TypeTooltipDesc",
   categoryDescription = "i18n:org.pentaho.di.trans.step:BaseStep.Category.Streaming",
@@ -183,7 +183,7 @@ public class KafkaProducerOutputMeta extends BaseStepMeta implements StepMetaInt
   }
 
   public String getDialogClassName() {
-    return "org.pentaho.big.data.kettle.plugins.kafka.KafkaProducerOutputDialog";
+    return "org.apache.kettle.plugins.kafka.KafkaProducerOutputDialog";
   }
 
   public String getClientId() {

@@ -500,7 +500,7 @@
   </step>
   <step>
     <name>Kafka Producer</name>
-    <type>KafkaProducerOutput</type>
+    <type>KettleKafkaProducerOutput</type>
     <description />
     <distribute>Y</distribute>
     <custom_distribution />

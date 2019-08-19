@@ -20,7 +20,7 @@
  *
  ******************************************************************************/
 
-package org.pentaho.big.data.kettle.plugins.kafka;
+package org.apache.kettle.plugins.kafka;
 
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -28,10 +28,10 @@ import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.OffsetAndMetadata;
 import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.errors.WakeupException;
+import org.apache.kettle.plugins.kafka.shared.BlockingQueueStreamSource;
 import org.pentaho.di.core.row.RowDataUtil;
 import org.pentaho.di.core.row.ValueMetaInterface;
 import org.pentaho.di.core.variables.VariableSpace;
-import org.pentaho.di.trans.streaming.common.BlockingQueueStreamSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,9 +53,9 @@ import java.util.stream.IntStream;
 import static java.util.Comparator.comparingLong;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.maxBy;
-import static org.pentaho.big.data.kettle.plugins.kafka.KafkaConsumerField.Name.OFFSET;
-import static org.pentaho.big.data.kettle.plugins.kafka.KafkaConsumerField.Name.PARTITION;
-import static org.pentaho.big.data.kettle.plugins.kafka.KafkaConsumerField.Name.TOPIC;
+import static org.apache.kettle.plugins.kafka.KafkaConsumerField.Name.OFFSET;
+import static org.apache.kettle.plugins.kafka.KafkaConsumerField.Name.PARTITION;
+import static org.apache.kettle.plugins.kafka.KafkaConsumerField.Name.TOPIC;
 
 public class KafkaStreamSource extends BlockingQueueStreamSource<List<Object>> {
 

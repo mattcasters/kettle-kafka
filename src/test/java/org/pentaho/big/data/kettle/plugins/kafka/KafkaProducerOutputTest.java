@@ -24,6 +24,10 @@ package org.pentaho.big.data.kettle.plugins.kafka;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kettle.plugins.kafka.KafkaFactory;
+import org.apache.kettle.plugins.kafka.KafkaProducerOutput;
+import org.apache.kettle.plugins.kafka.KafkaProducerOutputData;
+import org.apache.kettle.plugins.kafka.KafkaProducerOutputMeta;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;

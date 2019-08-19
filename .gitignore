@@ -25,3 +25,4 @@ hs_err_pid*
 kettle-kafka.iml
 .idea/
 target/
+/out/
