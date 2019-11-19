@@ -92,7 +92,6 @@ public class KafkaConsumerInputMeta extends BaseStreamStepMeta implements StepMe
   public static final String OUTPUT_FIELD_TAG_NAME = "OutputField";
   public static final String KAFKA_NAME_ATTRIBUTE = "kafkaName";
   public static final String TYPE_ATTRIBUTE = "type";
-  public static final String AUTO_COMMIT = "AUTO_COMMIT";
 
   private static Class<?> PKG = KafkaConsumerInput.class; // for i18n purposes, needed by Translator2!!   $NON-NLS-1$
 
@@ -117,9 +116,6 @@ public class KafkaConsumerInputMeta extends BaseStreamStepMeta implements StepMe
   @Injection( name = "VALUES", group = "CONFIGURATION_PROPERTIES" )
   protected transient List<String> injectedConfigValues;
 
-  @Injection( name = AUTO_COMMIT )
-  private boolean autoCommit = false;
-
   private Map<String, String> config = new LinkedHashMap<>();
 
   private KafkaConsumerField topicField;
@@ -130,11 +126,9 @@ public class KafkaConsumerInputMeta extends BaseStreamStepMeta implements StepMe
 
   private KafkaConsumerField timestampField;
 
-  private transient KafkaFactory kafkaFactory;
 
   public KafkaConsumerInputMeta() {
     super(); // allocate BaseStepMeta
-    kafkaFactory = KafkaFactory.defaultFactory();
     keyField = new KafkaConsumerField(
       KafkaConsumerField.Name.KEY,
       BaseMessages.getString( PKG, "KafkaConsumerInputDialog.KeyField" )
@@ -191,8 +185,6 @@ public class KafkaConsumerInputMeta extends BaseStreamStepMeta implements StepMe
     setBatchSize( XMLHandler.getTagValue( stepnode, BATCH_SIZE ) );
     setBatchDuration( XMLHandler.getTagValue( stepnode, BATCH_DURATION ) );
     setDirectBootstrapServers( XMLHandler.getTagValue( stepnode, DIRECT_BOOTSTRAP_SERVERS ) );
-    String autoCommitValue = XMLHandler.getTagValue( stepnode, AUTO_COMMIT );
-    setAutoCommit( "Y".equals( autoCommitValue ) || isNullOrEmpty( autoCommitValue ) );
     List<Node> ofNode = XMLHandler.getNodes( stepnode, OUTPUT_FIELD_TAG_NAME );
 
     ofNode.forEach( node -> {
@@ -246,7 +238,6 @@ public class KafkaConsumerInputMeta extends BaseStreamStepMeta implements StepMe
     setBatchSize( rep.getStepAttributeString( id_step, BATCH_SIZE ) );
     setBatchDuration( rep.getStepAttributeString( id_step, BATCH_DURATION ) );
     setDirectBootstrapServers( rep.getStepAttributeString( id_step, DIRECT_BOOTSTRAP_SERVERS ) );
-    setAutoCommit( rep.getStepAttributeBoolean( id_step, 0, AUTO_COMMIT, true ) );
 
     for ( KafkaConsumerField.Name name : KafkaConsumerField.Name.values() ) {
       String prefix = OUTPUT_FIELD_TAG_NAME + "_" + name;
@@ -279,7 +270,6 @@ public class KafkaConsumerInputMeta extends BaseStreamStepMeta implements StepMe
     rep.saveStepAttribute( transId, stepId, BATCH_SIZE, batchSize );
     rep.saveStepAttribute( transId, stepId, BATCH_DURATION, batchDuration );
     rep.saveStepAttribute( transId, stepId, DIRECT_BOOTSTRAP_SERVERS, directBootstrapServers );
-    rep.saveStepAttribute( transId, stepId, AUTO_COMMIT, autoCommit );
 
     List<KafkaConsumerField> fields = getFieldDefinitions();
     for ( KafkaConsumerField field : fields ) {
@@ -348,10 +338,6 @@ public class KafkaConsumerInputMeta extends BaseStreamStepMeta implements StepMe
 
   public void setConsumerGroup( String consumerGroup ) {
     this.consumerGroup = consumerGroup;
-  }
-
-  public String getBootstrapServers() {
-      return getDirectBootstrapServers();
   }
 
   public List<String> getTopics() {
@@ -430,7 +416,6 @@ public class KafkaConsumerInputMeta extends BaseStreamStepMeta implements StepMe
     retval.append( "    " ).append( XMLHandler.addTagValue( BATCH_SIZE, batchSize ) );
     retval.append( "    " ).append( XMLHandler.addTagValue( BATCH_DURATION, batchDuration ) );
     retval.append( "    " ).append( XMLHandler.addTagValue( DIRECT_BOOTSTRAP_SERVERS, directBootstrapServers ) );
-    retval.append( "    " ).append( XMLHandler.addTagValue( AUTO_COMMIT, autoCommit ) );
 
     getFieldDefinitions().forEach( field ->
       retval.append( "    " ).append(
@@ -455,22 +440,6 @@ public class KafkaConsumerInputMeta extends BaseStreamStepMeta implements StepMe
       getPartitionField(),
       getOffsetField(),
       getTimestampField() );
-  }
-
-  public KafkaFactory getKafkaFactory() {
-    return kafkaFactory;
-  }
-
-  void setKafkaFactory( KafkaFactory kafkaFactory ) {
-    this.kafkaFactory = kafkaFactory;
-  }
-
-  public void setAutoCommit( boolean autoCommit ) {
-    this.autoCommit = autoCommit;
-  }
-
-  public boolean isAutoCommit() {
-    return autoCommit;
   }
 
   public void setConfig( Map<String, String> config ) {
@@ -515,9 +484,6 @@ public class KafkaConsumerInputMeta extends BaseStreamStepMeta implements StepMe
     newClone.offsetField = new KafkaConsumerField( this.offsetField );
     newClone.partitionField = new KafkaConsumerField( this.partitionField );
     newClone.timestampField = new KafkaConsumerField( this.timestampField );
-    // Copying these explicitly so it's clear how they're being handled
-    // even though it's the same thing this.clone() already did
-    newClone.kafkaFactory = this.kafkaFactory;
     return newClone;
   }
 }

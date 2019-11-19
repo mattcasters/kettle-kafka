@@ -81,7 +81,6 @@ public class KafkaConsumerInputDialog extends BaseStreamingDialog implements Ste
   // for i18n purposes, needed by Translator2!!   $NON-NLS-1$
 
   private static final Map<String, String> DEFAULT_OPTION_VALUES = ImmutableMap.of( ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest" );
-  private final KafkaFactory kafkaFactory = KafkaFactory.defaultFactory();
 
   private KafkaConsumerInputMeta consumerMeta;
   private Spoon spoonInstance;
@@ -102,8 +101,6 @@ public class KafkaConsumerInputDialog extends BaseStreamingDialog implements Ste
   private Button wbCluster;
   private Label wlBootstrapServers;
   private TextVar wBootstrapServers;
-  private Button wbAutoCommit;
-  private Button wbManualCommit;
 
   public KafkaConsumerInputDialog( Shell parent, Object in, TransMeta tr, String sname ) {
     super( parent, in, tr, sname );
@@ -135,22 +132,6 @@ public class KafkaConsumerInputDialog extends BaseStreamingDialog implements Ste
     fdOffsetGroup.right = new FormAttachment( 100, 0 );
     wOffsetGroup.setLayoutData( fdOffsetGroup );
     props.setLook( wOffsetGroup );
-
-    wbAutoCommit = new Button( wOffsetGroup, SWT.RADIO );
-    wbAutoCommit.setText( BaseMessages.getString( PKG, "KafkaConsumerInputDialog.AutoOffset" ) );
-    FormData fdbAutoCommit = new FormData();
-    fdbAutoCommit.top = new FormAttachment( 0, 0 );
-    fdbAutoCommit.left = new FormAttachment( 0, 0 );
-    wbAutoCommit.setLayoutData( fdbAutoCommit );
-    props.setLook( wbAutoCommit );
-
-    wbManualCommit = new Button( wOffsetGroup, SWT.RADIO );
-    wbManualCommit.setText( BaseMessages.getString( PKG, "KafkaConsumerInputDialog.ManualOffset" ) );
-    FormData fdbManualCommit = new FormData();
-    fdbManualCommit.left = new FormAttachment( 0, 0 );
-    fdbManualCommit.top = new FormAttachment( wbAutoCommit, 10, SWT.BOTTOM );
-    wbManualCommit.setLayoutData( fdbManualCommit );
-    props.setLook( wbManualCommit );
   }
 
   @Override protected void buildSetup( Composite wSetupComp ) {
@@ -450,7 +431,7 @@ public class KafkaConsumerInputDialog extends BaseStreamingDialog implements Ste
       CCombo ccom = (CCombo) e.widget;
       ComboVar cvar = (ComboVar) ccom.getParent();
 
-      KafkaDialogHelper kdh = new KafkaDialogHelper( cvar, wBootstrapServers, kafkaFactory, optionsTable, meta.getParentStepMeta() );
+      KafkaDialogHelper kdh = new KafkaDialogHelper( transMeta, cvar, wBootstrapServers, optionsTable, meta.getParentStepMeta() );
       kdh.clusterNameChanged( e );
     };
 
@@ -518,9 +499,6 @@ public class KafkaConsumerInputDialog extends BaseStreamingDialog implements Ste
       wBatchDuration.setText( meta.getBatchDuration() );
     }
 
-    wbAutoCommit.setSelection( consumerMeta.isAutoCommit() );
-    wbManualCommit.setSelection( !consumerMeta.isAutoCommit() );
-
     specificationMethod = meta.getSpecificationMethod();
     switch ( specificationMethod ) {
       case FILENAME:
@@ -563,7 +541,6 @@ public class KafkaConsumerInputDialog extends BaseStreamingDialog implements Ste
 
     consumerMeta.setConsumerGroup( wConsumerGroup.getText() );
     consumerMeta.setDirectBootstrapServers( wBootstrapServers.getText() );
-    consumerMeta.setAutoCommit( wbAutoCommit.getSelection() );
     setFieldsFromTable();
     setOptionsFromTable();
   }

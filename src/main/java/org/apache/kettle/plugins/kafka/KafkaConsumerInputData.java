@@ -22,13 +22,23 @@
 
 package org.apache.kettle.plugins.kafka;
 
+import org.apache.kafka.clients.consumer.Consumer;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.pentaho.di.core.row.RowMetaInterface;
+import org.pentaho.di.trans.RowProducer;
+import org.pentaho.di.trans.SingleThreadedTransExecutor;
 import org.pentaho.di.trans.step.StepDataInterface;
 import org.pentaho.di.trans.steps.transexecutor.TransExecutorData;
 
+import java.util.Map;
+
 
 public class KafkaConsumerInputData extends TransExecutorData implements StepDataInterface {
-  RowMetaInterface outputRowMeta;
+  public RowMetaInterface outputRowMeta;
+  public Consumer consumer;
+  public int batch;
+  public RowProducer rowProducer;
+  public SingleThreadedTransExecutor executor;
 
   /**
    *

@@ -31,11 +31,7 @@
   </properties>
 
   <repositories>
-    <repository>
-      <id>eclipse-maven-repo</id>
-      <name>Eclipse Maven</name>
-      <url>https://mvnrepository.com</url>
-    </repository>
+
   </repositories>
 
   <dependencies>
@@ -60,6 +56,7 @@
       <artifactId>kafka-clients</artifactId>
       <version>${kafka-clients.version}</version>
     </dependency>
+
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
@@ -152,11 +149,14 @@
         <version>${pentaho-kettle.version}</version>
         <scope>provided</scope>
       </dependency>
+
       <dependency>
         <groupId>org.apache.kafka</groupId>
         <artifactId>kafka-clients</artifactId>
-        <version>${kafka-clients.version}</version>
+        <version>0.10.2.1</version>
+        <scope>provided</scope>
       </dependency>
+
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>

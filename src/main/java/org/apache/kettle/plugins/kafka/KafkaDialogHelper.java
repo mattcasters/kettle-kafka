@@ -48,6 +48,7 @@ import org.pentaho.di.core.exception.KettleStepException;
 import org.pentaho.di.core.row.RowMetaInterface;
 import org.pentaho.di.core.row.value.ValueMetaBase;
 import org.pentaho.di.core.util.StringUtil;
+import org.pentaho.di.core.variables.VariableSpace;
 import org.pentaho.di.trans.TransMeta;
 import org.pentaho.di.trans.step.StepMeta;
 import org.pentaho.di.ui.core.widget.ComboVar;
@@ -55,23 +56,22 @@ import org.pentaho.di.ui.core.widget.TableView;
 import org.pentaho.di.ui.core.widget.TextVar;
 
 public class KafkaDialogHelper {
+  private VariableSpace space;
   private ComboVar wTopic;
   private TextVar wBootstrapServers;
-  private KafkaFactory kafkaFactory;
   private TableView optionsTable;
   private StepMeta parentMeta;
 
-  public KafkaDialogHelper( ComboVar wTopic, TextVar wBootstrapServers,
-                            KafkaFactory kafkaFactory,
+  public KafkaDialogHelper( VariableSpace space, ComboVar wTopic, TextVar wBootstrapServers,
                             TableView optionsTable, StepMeta parentMeta ) {
+    this.space = space;
     this.wTopic = wTopic;
     this.wBootstrapServers = wBootstrapServers;
-    this.kafkaFactory = kafkaFactory;
     this.optionsTable = optionsTable;
     this.parentMeta = parentMeta;
   }
 
-  public void clusterNameChanged( @SuppressWarnings( "unused" ) Event event ) {
+  public void clusterNameChanged( Event event ) {
     String current = wTopic.getText();
     if ( StringUtil.isEmpty( wBootstrapServers.getText() ) ) {
       return;
@@ -106,10 +106,11 @@ public class KafkaDialogHelper {
       localMeta.setDirectBootstrapServers( directBootstrapServers );
       localMeta.setConfig( config );
       localMeta.setParentStepMeta( parentMeta );
-      kafkaConsumer = kafkaFactory.consumer( localMeta, Function.identity() );
+      kafkaConsumer = KafkaConsumerInput.buildKafkaConsumer( space, localMeta );
       @SuppressWarnings( "unchecked" ) Map<String, List<PartitionInfo>> topicMap = kafkaConsumer.listTopics();
       return topicMap;
     } catch ( Exception e ) {
+      e.printStackTrace();
       return Collections.emptyMap();
     } finally {
       if ( kafkaConsumer != null ) {

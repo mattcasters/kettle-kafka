@@ -90,17 +90,18 @@ public class KafkaConsumerField {
   }
 
   public enum Type {
-    String( "String", ValueMetaInterface.TYPE_STRING, StringSerializer.class, StringDeserializer.class ),
-    Integer( "Integer", ValueMetaInterface.TYPE_INTEGER, LongSerializer.class, LongDeserializer.class ),
-    Binary( "Binary", ValueMetaInterface.TYPE_BINARY, ByteArraySerializer.class, ByteArrayDeserializer.class ),
-    Number( "Number", ValueMetaInterface.TYPE_NUMBER, DoubleSerializer.class, DoubleDeserializer.class );
+    String( "String", ValueMetaInterface.TYPE_STRING, StringSerializer.class.getName(), StringDeserializer.class.getName() ),
+    Integer( "Integer", ValueMetaInterface.TYPE_INTEGER, LongSerializer.class.getName(), LongDeserializer.class.getName() ),
+    Binary( "Binary", ValueMetaInterface.TYPE_BINARY, ByteArraySerializer.class.getName(), ByteArrayDeserializer.class.getName() ),
+    Number( "Number", ValueMetaInterface.TYPE_NUMBER, DoubleSerializer.class.getName(), DoubleDeserializer.class.getName() ),
+    Avro( "Avro", ValueMetaInterface.TYPE_STRING, "io.confluent.kafka.serializers.KafkaAvroSerializer", "io.confluent.kafka.serializers.KafkaAvroDeserializer" );
 
     private final String value;
     private final int valueMetaInterfaceType;
-    private Class kafkaSerializerClass;
-    private Class kafkaDeserializerClass;
+    private String kafkaSerializerClass;
+    private String kafkaDeserializerClass;
 
-    Type( String value, int valueMetaInterfaceType, Class kafkaSerializerClass, Class kafkaDeserializerClass ) {
+    Type( String value, int valueMetaInterfaceType, String kafkaSerializerClass, String kafkaDeserializerClass ) {
       this.value = value;
       this.valueMetaInterfaceType = valueMetaInterfaceType;
       this.kafkaSerializerClass = kafkaSerializerClass;
@@ -118,11 +119,11 @@ public class KafkaConsumerField {
       return valueMetaInterfaceType;
     }
 
-    public Class getKafkaSerializerClass() {
+    public String getKafkaSerializerClass() {
       return kafkaSerializerClass;
     }
 
-    public Class getKafkaDeserializerClass() {
+    public String getKafkaDeserializerClass() {
       return kafkaDeserializerClass;
     }
 
